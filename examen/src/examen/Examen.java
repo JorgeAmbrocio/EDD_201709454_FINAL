@@ -5,13 +5,16 @@
  */
 package examen;
 
+import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import org.omg.SendingContext.RunTime;
 
 /**
  *
@@ -26,11 +29,13 @@ public class Examen {
     
     
     public static alumno alumnos[] ;
+    public static fmr fmr_ ;
     public static void main(String[] args) {
         // TODO code application logic here
-        
+        fmr_ = new fmr();
         alumnos = new alumno[100];
         
+        fmr_.show();
         
         
     }
@@ -129,10 +134,13 @@ public class Examen {
         PrintWriter pw;
         
         try {
-            file = new FileWriter ("");
+            String rutata =  "REPORTES/ejemplo.js";
+            file = new FileWriter (rutata);
             pw  = new PrintWriter(file);
             pw.print(cont);
             file.close();
+            
+            JOptionPane.showMessageDialog(null, "Reporte creado con éxito.", "TITULO", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception r) {JOptionPane.showMessageDialog(null, "No se ha podido crear el reporte.", "ERROR", JOptionPane.ERROR_MESSAGE);}
         
         
@@ -140,36 +148,81 @@ public class Examen {
     
     public static String getContenido (int posicion) {
         String cont = "";
+        System.out.println(posicion);
+        if (alumnos[posicion] != null) {
         
-        cont += "text: {\n";
-        
-        cont += "   name: " + "\"" + alumnos[posicion].nombre +  "\",\n";
-        cont += "   title: " +"\"" + alumnos[posicion].id + "\"\n";
-        
-        cont += "},\n";
-        
-        cont += "children: [\n";
-        
-        // llamar al hijo izquierda
-        int indiceIzquierda = posicion *2 + 1;
-        
-        
-        if (indiceIzquierda <= 100) {
-            cont += getContenido(indiceIzquierda);
+            cont += "           text: {\n";
+
+            cont += "               name: " + "\"" + alumnos[posicion].nombre +  "\",\n";
+            cont += "               title: " +"\"" + alumnos[posicion].id + "\"\n";
+
+            cont += "           },\n";
+
+            int indiceIzquierda = posicion *2 + 1;
+            int indiceDerecha = posicion * 2 + 2 ;
+
+            if (indiceIzquierda < 100 || indiceDerecha < 100) {
+                cont += "children: [\n";
+
+                // llamar al hijo izquierda
+                if (indiceIzquierda < 100 && alumnos [indiceIzquierda] != null) {
+                    
+                    cont += "{\n";
+                    cont += getContenido(indiceIzquierda);
+                    cont += "}\n";
+                    if (indiceDerecha < 100 && alumnos[indiceDerecha] != null) {
+                        cont += ",";
+                    }
+                }
+
+                // llamar al hijo derecha
+                if (indiceDerecha < 100 && alumnos[indiceDerecha] != null ) {
+                    cont += "{\n";
+                    cont += getContenido (indiceDerecha);
+                    cont += "}\n";
+                }
+
+                cont += "]\n";
+            }
+            
         }
-        
-        // llamar al hijo derecha
-        int indiceDerecha = posicion * 2 + 2 ;
-        
-        if (indiceDerecha <= 100) {
-            cont += getContenido (indiceDerecha);
-        }
-        
-        cont += "]\n";
         
         return cont;
     }
     
+    public static void abrirReporte () throws IOException {
+        String ruta = "REPORTES/index.html" ;
+        File file ;
+        
+        try {
+            file = new File (ruta);
+            
+            String comando = "\"" + file.getAbsolutePath() + "\"";
+            
+            //Runtime.getRuntime().exec(comando);
+            //Runtime.getRuntime().exec(comando);
+            
+        } catch (Exception e) {JOptionPane.showMessageDialog(null, "No se ha podido abrir el reporte.", "ERROR", JOptionPane.ERROR_MESSAGE);}
+        
+        file = new File (ruta);
+        String comando = "" + file.getAbsolutePath() + "";
+            
+        abrirarchivo (comando);
+    }
     
+    public static void abrirarchivo(String archivo){
+
+     try {
+
+            File objetofile = new File (archivo);
+            Desktop.getDesktop().open(objetofile);
+
+     }catch (IOException ex) {
+
+            System.out.println(ex);
+
+     }
+
+}    
     
 }
