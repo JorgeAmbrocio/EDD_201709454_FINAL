@@ -30,13 +30,18 @@ public class Examen {
     
     public static alumno alumnos[] ;
     public static fmr fmr_ ;
+    
+    public static arbol aa ;
     public static void main(String[] args) {
         // TODO code application logic here
         fmr_ = new fmr();
+        aa = new arbol();
         alumnos = new alumno[100];
         
         fmr_.show();
         
+        //int n = 12/2;
+        //System.out.print(n);
         
     }
     
@@ -89,11 +94,14 @@ public class Examen {
                 //alumnos[index] = alumno_;
                 
                 insertarDato_(alumno_, 0);
+                //aa.insertarDato_(alumno_, 0);
                 
                 contenido += linea;
                 index ++;
                 
             }
+            
+            //aa.crearOrdenado();
             
             JOptionPane.showMessageDialog(null, "La carga ha sido realizaa correctamente", "CARGA", JOptionPane.INFORMATION_MESSAGE);
             
@@ -106,7 +114,7 @@ public class Examen {
         
         
         if (indice > 99) {
-            JOptionPane.showMessageDialog(null, "Se ha alcanzado la profundidad máxima representada en el vector de datos", "error", JOptionPane.ERROR_MESSAGE);
+            //JOptionPane.showMessageDialog(null, "Se ha alcanzado la profundidad máxima representada en el vector de datos", "error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
