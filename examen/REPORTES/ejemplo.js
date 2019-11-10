@@ -10,7 +10,8 @@
             animateOnInit: true,
             
             node: {
-                collapsable: true,HTMLclass: 'nodeExample1'
+                collapsable: true,
+                HTMLclass: 'nodeExample1'
             },
             animation: {
                 nodeAnimation: "easeOutBounce",
@@ -31,7 +32,7 @@
                         name: "Juan",
                         title: "82283181"
                     },
-                    collapsed: true,
+                    
                     children: [
                         {
                             text:{
@@ -52,7 +53,7 @@
                         name: "May",
                         title: "124778799",
                     },
-                    collapsed: true,
+                    
                     children: [
                         {
                             text:{

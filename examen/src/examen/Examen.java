@@ -8,6 +8,8 @@ package examen;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
@@ -29,7 +31,7 @@ public class Examen {
         
         alumnos = new alumno[100];
         
-        insertarDatos();
+        
         
     }
     
@@ -83,6 +85,7 @@ public class Examen {
                 
             }
             
+            JOptionPane.showMessageDialog(null, "La carga ha sido realizaa correctamente", "CARGA", JOptionPane.INFORMATION_MESSAGE);
             
         } catch (Exception e) {JOptionPane.showMessageDialog(null, "No se ha podido encontrar el archivo.");}
         
@@ -94,6 +97,79 @@ public class Examen {
     public static void generarJS () {
         // genera el reporte de datos js
         
+        String cont = "";
+        
+        cont += "var chart_config = {\n";
+        
+        cont += "   chart: {\n";
+        
+        cont += "       container: \"#basic-example\",\n";
+        cont += "       connectors: {\n";
+        cont += "           type: \"bCurve\"\n";
+        cont += "       },\n";
+        cont += "       animatedOnInit: true,\n";
+        cont += "       node:{\n";
+        cont += "           collapsable: true,\n";
+        cont += "           HTMLclass: \'nodeExample1\'\n" ;
+        cont += "       },\n";
+        cont += "       animation: {\n";
+        cont += "           nodeAnimation: \"easeOutBounce\",\n";
+        cont += "           nodeSpeed: 700,\n";
+        cont += "           connectorsAnimation: \"bounce\",\n";
+        cont += "           connectorsSpeed: 700\n";
+        cont += "       }\n";
+        cont += "   },\n";
+        cont += "   nodeStructure: {\n";
+        cont += getContenido(0);
+        cont += "   }\n";
+        cont += "};";
+        
+        
+        FileWriter file;
+        PrintWriter pw;
+        
+        try {
+            file = new FileWriter ("");
+            pw  = new PrintWriter(file);
+            pw.print(cont);
+            file.close();
+        } catch (Exception r) {JOptionPane.showMessageDialog(null, "No se ha podido crear el reporte.", "ERROR", JOptionPane.ERROR_MESSAGE);}
+        
+        
     }
+    
+    public static String getContenido (int posicion) {
+        String cont = "";
+        
+        cont += "text: {\n";
+        
+        cont += "   name: " + "\"" + alumnos[posicion].nombre +  "\",\n";
+        cont += "   title: " +"\"" + alumnos[posicion].id + "\"\n";
+        
+        cont += "},\n";
+        
+        cont += "children: [\n";
+        
+        // llamar al hijo izquierda
+        int indiceIzquierda = posicion *2 + 1;
+        
+        
+        if (indiceIzquierda <= 100) {
+            cont += getContenido(indiceIzquierda);
+        }
+        
+        // llamar al hijo derecha
+        int indiceDerecha = posicion * 2 + 2 ;
+        
+        if (indiceDerecha <= 100) {
+            cont += getContenido (indiceDerecha);
+        }
+        
+        cont += "]\n";
+        
+        return cont;
+    }
+    
+    
     
 }
