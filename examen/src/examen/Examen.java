@@ -54,6 +54,9 @@ public class Examen {
     }
     
     public static void insertarDatos () {
+        // limpia el vetor anterior
+        alumnos = new alumno[100];
+        
         // realiza carga masiva para obtener los datos del forato .csv
         
         JOptionPane.showMessageDialog(null, "Selecciona el archivo de carga masiva.");
@@ -81,9 +84,11 @@ public class Examen {
                 String id = datos [0] ;
                 String nombre = datos[1];
                 
-                alumno alumno_ = new alumno(datos [0], datos [1]);
+                alumno alumno_ = new alumno(datos [1], Integer.parseInt(datos [0]));
                 
-                alumnos[index] = alumno_;
+                //alumnos[index] = alumno_;
+                
+                insertarDato_(alumno_, 0);
                 
                 contenido += linea;
                 index ++;
@@ -95,6 +100,32 @@ public class Examen {
         } catch (Exception e) {JOptionPane.showMessageDialog(null, "No se ha podido encontrar el archivo.");}
         
         
+    }
+    
+    public static void insertarDato_ (alumno al, int indice) {
+        
+        
+        if (indice > 99) {
+            JOptionPane.showMessageDialog(null, "Se ha alcanzado la profundidad máxima representada en el vector de datos", "error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        
+        // verificar si el indice está vacío
+        if (alumnos[indice] == null) {
+            // insertar en esta posoción
+            alumnos[indice]  = al;
+        }else {
+            
+            if (al.nombre.compareToIgnoreCase(alumnos[indice].nombre)< 0) {
+                // insertar a la izquierda
+                insertarDato_(al, indice * 2 +1);
+            }else {
+                // insertar a la derecha
+                insertarDato_(al, indice * 2 +2);
+            }
+            
+        }
         
         
     }

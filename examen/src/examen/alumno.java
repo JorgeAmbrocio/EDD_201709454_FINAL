@@ -12,11 +12,15 @@ package examen;
 public class alumno {
     
     public String nombre;
-    public String id;
+    public int id;
+    
+    public int nivel ;
 
-    public alumno(String nombre, String id) {
+    public alumno(String nombre, int id) {
         this.nombre = nombre;
         this.id = id;
+        
+        this.nivel = 0;
     }
     
     
